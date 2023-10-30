@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.auth.models import User
+
 
 
 class Source(models.Model):
@@ -17,6 +19,7 @@ class Article(models.Model):
     source = models.ForeignKey(Source, related_name="articles", on_delete=models.CASCADE)
     url = models.URLField(max_length=200)
     archived = models.BooleanField(default=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name="articles")
 
     def __str__(self):
         return self.title
