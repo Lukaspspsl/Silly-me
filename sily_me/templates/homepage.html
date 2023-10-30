@@ -4,20 +4,20 @@
 <h1>Welcome{% if user.is_authenticated %}, {{ user.username }}, you are logged in{% endif %}!</h1>
 
 {% if user.is_authenticated %}
-    <h2>Save an Article:</h2>
-    <form method="post" action="{% url 'save-article' %}">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Save Article</button>
-    </form>
+<h2>Save an Article:</h2>
+<form method="post" action="{% url 'save-article' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save Article</button>
+</form>
 
-    <h2>Your Saved Articles:</h2>
-    <ul>
-        {% for article in articles %}
-            <li>{{ article.title }}</li>
-        {% endfor %}
-    </ul>
+<h2>Your Saved Articles:</h2>
+<ul>
+    {% for article in articles %}
+    <li><a href="{% url 'article_detail' article.id %}">{{ article.title }}</a></li>
+    {% endfor %}
+</ul>
 {% else %}
-    <p>Please register/log in</p>
+<p>Please register/log in</p>
 {% endif %}
 {% endblock %}
