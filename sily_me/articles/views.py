@@ -8,9 +8,7 @@ from .models import Article as ArticleModel, Reminder, Source, Article
 from rest_framework.response import Response
 from rest_framework import status
 from newspaper import Article as NewsArticle
-from rest_framework.decorators import api_view, authentication_classes, permission_classes
-from rest_framework.permissions import IsAuthenticated
-from rest_framework_simplejwt.authentication import JWTAuthentication
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import ArticleForm
 
 
@@ -22,9 +20,8 @@ def homepage_view(request):
     return render(request, "homepage.html", {"form": form, "articles": articles})
 
 
-@authentication_classes([JWTAuthentication])
-@permission_classes([IsAuthenticated])
-class ArticleCreateView(generics.ListCreateAPIView):
+
+class ArticleCreateView(LoginRequiredMixin, generics.ListCreateAPIView):
     serializer_class = ArticleSerializer
 
     def fetch(self, url):
@@ -69,8 +66,8 @@ class ArticleCreateView(generics.ListCreateAPIView):
         return ArticleModel.objects.filter(user=self.request.user)
 
 
-@authentication_classes([JWTAuthentication])
-class SingleArticleView(generics.ListCreateAPIView):
+
+class SingleArticleView(LoginRequiredMixin, generics.ListCreateAPIView):
     serializer_class = ArticleSerializer
 
     def view_single_article(self, id):
@@ -98,26 +95,25 @@ class SingleArticleView(generics.ListCreateAPIView):
         return self.delete_article(id)
 
 
-@authentication_classes([JWTAuthentication])
-# @permission_classes([IsAuthenticated])
+
 class ReminderCreateView(generics.ListCreateAPIView):
     queryset = Reminder.objects.all()
     serializer_class = ReminderSerializer
 
 
-@authentication_classes([JWTAuthentication])
+
 class SingleReminderView(generics.ListCreateAPIView):
     queryset = Reminder.objects.all()
     serializer_class = ReminderSerializer
 
 
-@authentication_classes([JWTAuthentication])
+
 class SourceCreateView(generics.ListCreateAPIView):
     queryset = Source.objects.all()
     serializer_class = SourceSerializer
 
 
-@authentication_classes([JWTAuthentication])
+
 class SingleSourceView(generics.ListCreateAPIView):
     queryset = Source.objects.all()
     serializer_class = SourceSerializer

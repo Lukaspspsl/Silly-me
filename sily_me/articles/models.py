@@ -14,7 +14,7 @@ class Source(models.Model):
 class Article(models.Model):
     title = models.CharField(max_length=300)
     body = models.TextField(default="No text")
-    author = models.CharField(max_length=150)
+    author = models.CharField(max_length=150, null=True, blank=True)
     timestamp = models.DateTimeField(auto_now_add=True)
     source = models.ForeignKey(Source, related_name="articles", on_delete=models.CASCADE)
     url = models.URLField(max_length=200)

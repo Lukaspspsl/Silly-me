@@ -22,6 +22,4 @@ urlpatterns = [
     path('', homepage_view, name="homepage"),
     path('users/', include('users.urls')),
     path('api/', include('articles.urls')),
-    path('auth/', include('djoser.urls')),
-    path('auth/', include('djoser.urls.jwt')),
 ]
