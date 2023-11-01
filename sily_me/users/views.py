@@ -2,20 +2,32 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from django.db import IntegrityError
+from .forms import UserRegisterForm
+from .models import Profile
+
+from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 
 
 def register_view(request):
     if request.method == "POST":
-        form = UserCreationForm(request.POST)
+        form = UserRegisterForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            login(request, user)
-            messages.success(request, "Registration successful.")
-            return redirect("homepage")
-        else:
-            messages.error(request, "Invalid data.")
+            email = form.cleaned_data.get('email')
+            password = form.cleaned_data.get(
+                'password1')
+            try:
+                user = User.objects.create_user(username=email, email=email, password=password)
+                login(request, user)
+                messages.success(request, "Registration successful.")
+                return redirect("homepage")
+            except IntegrityError:
+                form.add_error('email', 'Email is already in use.')
+
     else:
-        form = UserCreationForm()
+        form = UserRegisterForm()
+
     return render(request, 'users/register.html', {'form': form})
 
 

@@ -3,8 +3,8 @@ import urllib.request
 from rest_framework import generics
 from django.shortcuts import render
 from django.views import View
-from .serializers import ArticleSerializer, ReminderSerializer, SourceSerializer
-from .models import Article as ArticleModel, Reminder, Source, Article
+from .serializers import ArticleSerializer, SourceSerializer
+from .models import Article as ArticleModel, Source, Article
 from rest_framework.response import Response
 from rest_framework import status
 from newspaper import Article as NewsArticle
@@ -101,15 +101,15 @@ class SingleArticleView(LoginRequiredMixin, generics.ListCreateAPIView):
 
 
 
-class ReminderCreateView(generics.ListCreateAPIView):
-    queryset = Reminder.objects.all()
-    serializer_class = ReminderSerializer
-
-
-
-class SingleReminderView(generics.ListCreateAPIView):
-    queryset = Reminder.objects.all()
-    serializer_class = ReminderSerializer
+# class ReminderCreateView(generics.ListCreateAPIView):
+#     queryset = Reminder.objects.all()
+#     serializer_class = ReminderSerializer
+#
+#
+#
+# class SingleReminderView(generics.ListCreateAPIView):
+#     queryset = Reminder.objects.all()
+#     serializer_class = ReminderSerializer
 
 
 

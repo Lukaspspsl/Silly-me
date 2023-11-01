@@ -6,14 +6,43 @@
 <form method="post">
     {% csrf_token %}
 
-    {{ form.as_table }}
+    <table>
+        <!-- For email -->
+        <tr>
+            <td><label for="id_email">Email:</label></td>
+            <td>
+                {{ form.email.errors }}
+                {{ form.email }}
+            </td>
+        </tr>
+
+        <!-- For password -->
+        <tr>
+            <td><label for="id_password1">Password:</label></td>
+            <td>
+                {{ form.password1.errors }}
+                {{ form.password1 }}
+            </td>
+        </tr>
+
+        <!-- For password confirmation -->
+        <tr>
+            <td><label for="id_password2">Confirm Password:</label></td>
+            <td>
+                {{ form.password2.errors }}
+                {{ form.password2 }}
+            </td>
+        </tr>
+    </table>
 
     <button type="submit">Register</button>
 </form>
-{% if form.errors %}
-        <div class="errors">
-            {{ form.errors }}
-        </div>
-    {% endif %}
+
+{% if form.non_field_errors %}
+<div class="errors">
+    {{ form.non_field_errors }}
+</div>
+{% endif %}
+
 <p>Already have an account? <a href="{% url 'login' %}">Log in</a></p>
 {% endblock %}

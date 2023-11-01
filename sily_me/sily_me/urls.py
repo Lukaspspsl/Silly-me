@@ -22,4 +22,5 @@ urlpatterns = [
     path('', homepage_view, name="homepage"),
     path('users/', include('users.urls')),
     path('api/', include('articles.urls')),
+    path('reminder/', include('reminders.urls')),
 ]

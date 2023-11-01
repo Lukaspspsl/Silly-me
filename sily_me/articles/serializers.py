@@ -1,16 +1,10 @@
 from rest_framework import serializers
-from .models import Article, Reminder, Source
+from .models import Article, Source
 
 
 class ArticleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Article
-        fields = '__all__'
-
-
-class ReminderSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Reminder
         fields = '__all__'
 
 
